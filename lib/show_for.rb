@@ -52,6 +52,9 @@ module ShowFor
   mattr_accessor :label_proc
   @@label_proc = nil
 
+  mattr_accessor :after_content_proc
+  @@after_content_proc = nil
+
   # Yield self for configuration block:
   #
   #   ShowFor.setup do |config|

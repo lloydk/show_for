@@ -34,7 +34,9 @@ module ShowFor
     def wrap_label_and_content(name, value, options, &block) #:nodoc:
       label = label(name, options, false)
       label += ShowFor.separator.to_s.html_safe if label.present?
-      wrap_with(:wrapper, label + content(value, options, false, &block), apply_wrapper_options!(:wrapper, options, value))
+      content = content(value, options, false, &block)
+      after_content = after_content(name, value, options)
+      wrap_with(:wrapper, label + content + after_content, apply_wrapper_options!(:wrapper, options, value))
     end
 
     def wrap_content(name, value, options, &block) #:nodoc:
@@ -74,6 +76,10 @@ module ShowFor
     # i.e. it has arity equals to one.
     def collection_block?(block) #:nodoc:
       block && block.arity == 1
+    end
+ 
+    def after_content(name, value, options = {})
+      ShowFor.after_content_proc ? ShowFor.after_content_proc.call(@object, name, value) : ''
     end
   end
 end
